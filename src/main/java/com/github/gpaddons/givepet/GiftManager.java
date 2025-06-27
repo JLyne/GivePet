@@ -5,7 +5,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import org.bukkit.profile.PlayerProfile;
+import com.destroystokyo.paper.profile.PlayerProfile;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -20,8 +20,8 @@ public class GiftManager {
   public void addGift(@NotNull PlayerProfile sender, @NotNull PlayerProfile recipient,
       @NotNull UUID entity) {
     Gift gift = new Gift(sender, recipient, entity, Instant.now().plus(2, ChronoUnit.MINUTES));
-    from.put(sender.getUniqueId(), gift);
-    to.put(recipient.getUniqueId(), gift);
+    from.put(sender.getId(), gift);
+    to.put(recipient.getId(), gift);
   }
 
   public @Nullable Gift getActiveFrom(@NotNull UUID sender) {
@@ -41,7 +41,7 @@ public class GiftManager {
   public @Nullable Gift getActiveTo(@NotNull UUID recipient) {
     return from.computeIfPresent(recipient, (uuid, existing) -> {
       if (isExpired(existing)) {
-        from.remove(existing.from().getUniqueId(), existing);
+        from.remove(existing.from().getId(), existing);
         return null;
       }
       return existing;
@@ -56,7 +56,7 @@ public class GiftManager {
     Gift pending = to.remove(recipient);
     if (pending != null) {
       // If from contains same pending entry, also remove from.
-      from.remove(pending.from().getUniqueId(), pending);
+      from.remove(pending.from().getId(), pending);
     }
     return pending;
   }

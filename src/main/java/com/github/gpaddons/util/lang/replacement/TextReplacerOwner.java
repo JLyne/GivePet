@@ -1,9 +1,9 @@
 package com.github.gpaddons.util.lang.replacement;
 
+import com.destroystokyo.paper.profile.PlayerProfile;
 import com.github.gpaddons.util.lang.Lang;
 import java.util.Objects;
 import java.util.UUID;
-import org.bukkit.profile.PlayerProfile;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -29,7 +29,7 @@ public class TextReplacerOwner implements TextReplacer {
   }
 
   public TextReplacerOwner(@NotNull String prefix, @NotNull PlayerProfile player) {
-    this(prefix, player.getUniqueId(), player);
+    this(prefix, player.getId(), player);
   }
 
   private TextReplacerOwner(

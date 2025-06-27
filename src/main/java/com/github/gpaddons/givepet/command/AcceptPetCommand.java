@@ -45,7 +45,7 @@ public class AcceptPetCommand implements TabExecutor {
     }
 
     // From UUID is never null - profile is from a previously online player and is complete.
-    Player from = Bukkit.getPlayer(Objects.requireNonNull(gift.from().getUniqueId()));
+    Player from = Bukkit.getPlayer(Objects.requireNonNull(gift.from().getId()));
 
     // Check entity.
     Entity entity = Bukkit.getEntity(gift.tamed());

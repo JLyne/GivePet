@@ -2,7 +2,7 @@ package com.github.gpaddons.givepet;
 
 import java.time.Instant;
 import java.util.UUID;
-import org.bukkit.profile.PlayerProfile;
+import com.destroystokyo.paper.profile.PlayerProfile;
 import org.jetbrains.annotations.NotNull;
 
 public record Gift(

@@ -1,5 +1,6 @@
 package com.github.gpaddons.util.lang;
 
+import com.destroystokyo.paper.profile.PlayerProfile;
 import com.github.gpaddons.util.lang.replacement.ComponentReplacement;
 import com.github.gpaddons.util.lang.replacement.TextReplacer;
 import com.github.gpaddons.util.lang.value.CommonValues;
@@ -27,7 +28,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.profile.PlayerProfile;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -293,7 +293,7 @@ public final class Lang {
     }
 
     return get(CommonValues.UNNAMED_PLAYER).replace("$uuid",
-        Objects.requireNonNull(offlinePlayer.getUniqueId()).toString());
+        Objects.requireNonNull(offlinePlayer.getId()).toString());
   }
 
 }
