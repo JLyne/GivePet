@@ -17,7 +17,7 @@ java {
 
 repositories {
     maven {
-        url = uri("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
+        url = uri("https://repo.papermc.io/repository/maven-public/")
     }
     maven {
         url = uri("https://jitpack.io")
@@ -26,14 +26,13 @@ repositories {
 }
 
 dependencies {
-    compileOnly(libs.spigotApi)
-    compileOnly(libs.annotations)
+    compileOnly(libs.paperApi)
     compileOnly(libs.griefPrevention)
 }
 
 bukkit {
     main = "com.github.gpaddons.givepet.GivePet"
-    apiVersion = "1.21"
+    apiVersion = libs.versions.paperApi.get().replace(Regex("\\-R\\d.\\d-SNAPSHOT"), "")
     authors = listOf("Jim (AnEnragedPigeon)", "Jikoo")
     description = "A GriefPrevention addon for pet transfers."
     depend = listOf("GriefPrevention")
