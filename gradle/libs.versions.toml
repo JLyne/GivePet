@@ -1,0 +1,13 @@
+[versions]
+pluginYml = "0.7.1"
+spigotApi = "1.21-R0.1-SNAPSHOT"
+annotations = "26.0.2"
+griefPrevention = "16.18.1"
+
+[libraries]
+spigotApi = { group = "org.spigotmc", name = "spigot-api", version.ref = "spigotApi" }
+annotations = { group = "org.jetbrains", name = "annotations", version.ref = "annotations" }
+griefPrevention = { group = "com.github.TechFortress", name = "GriefPrevention", version.ref  = "griefPrevention" }
+
+[plugins]
+pluginYml = { id = "de.eldoria.plugin-yml.bukkit", version.ref = "pluginYml" }
