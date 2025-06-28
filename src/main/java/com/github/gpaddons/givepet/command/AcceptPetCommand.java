@@ -4,11 +4,9 @@ import com.github.gpaddons.givepet.Gift;
 import com.github.gpaddons.givepet.GiftManager;
 import java.util.List;
 import java.util.Objects;
-import com.github.gpaddons.givepet.lang.ComponentTameable;
 import com.github.gpaddons.givepet.lang.Messages;
 import com.github.gpaddons.util.lang.Lang;
-import com.github.gpaddons.util.lang.replacement.TextReplacer;
-import com.github.gpaddons.util.lang.replacement.TextReplacerOwner;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -54,9 +52,13 @@ public class AcceptPetCommand implements TabExecutor {
         Lang.send(
             from,
             Messages.RECEIVE_NOT_FOUND_SENDER,
-            new TextReplacerOwner("recipient", recipient.getPlayerProfile()));
+            Placeholder.unparsed("recipient_id",
+                String.valueOf(recipient.getPlayerProfile().getId())),
+            Placeholder.unparsed("recipient", Lang.getName(recipient.getPlayerProfile())));
       }
-      Lang.send(recipient, Messages.RECEIVE_NOT_FOUND_RECIPIENT, new TextReplacerOwner(gift.from()));
+      Lang.send(recipient, Messages.RECEIVE_NOT_FOUND_RECIPIENT,
+          Placeholder.unparsed("owner_id", String.valueOf(gift.from().getId())),
+          Placeholder.unparsed("owner", Lang.getName(gift.from())));
       return true;
     }
 
@@ -70,14 +72,16 @@ public class AcceptPetCommand implements TabExecutor {
     Lang.send(
         recipient,
         Messages.RECEIVE_ACCEPT_RECIPIENT,
-        new TextReplacer[]{ new TextReplacerOwner(gift.from()) },
-        new ComponentTameable(tameable));
+        Placeholder.unparsed("owner_id", String.valueOf(gift.from().getId())),
+        Placeholder.unparsed("owner", Lang.getName(gift.from())),
+        Placeholder.component("tamed", Lang.getTameableComponent(tameable)));
     if (from != null) {
       Lang.send(
           from,
           Messages.RECEIVE_ACCEPT_SENDER,
-          new TextReplacer[]{ new TextReplacerOwner("recipient", gift.from()) },
-          new ComponentTameable(tameable));
+          Placeholder.unparsed("recipient_id", String.valueOf(gift.from().getId())),
+          Placeholder.unparsed("recipient", Lang.getName(gift.from())),
+          Placeholder.component("tamed", Lang.getTameableComponent(tameable)));
     }
 
     return true;

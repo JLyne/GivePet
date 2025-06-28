@@ -4,14 +4,12 @@ import com.github.gpaddons.givepet.Gift;
 import com.github.gpaddons.givepet.GiftManager;
 import java.util.ArrayList;
 import java.util.List;
-import com.github.gpaddons.givepet.lang.ComponentCommand;
 import com.github.gpaddons.givepet.lang.Messages;
-import com.github.gpaddons.givepet.lang.ComponentTameable;
 import com.github.gpaddons.util.lang.Lang;
-import com.github.gpaddons.util.lang.replacement.TextReplacer;
-import com.github.gpaddons.util.lang.replacement.TextReplacerOwner;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
 import me.ryanhamshire.GriefPrevention.PlayerData;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver.Single;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -26,8 +24,10 @@ import org.jetbrains.annotations.NotNull;
 
 public class GivePetCommand implements TabExecutor {
 
-  private static final ComponentCommand ACCEPTPET = new ComponentCommand("/acceptpet");
-  private static final ComponentCommand DECLINEPET = new ComponentCommand("/declinepet");
+  private static final Single ACCEPTPET = Placeholder.component("acceptpet",
+      Lang.getCommandComponent("/acceptpet", "/acceptpet"));
+  private static final Single DECLINEPET = Placeholder.component("declinepet",
+      Lang.getCommandComponent("/declinepet", "/declinepet"));
 
   private final @NotNull GiftManager manager;
 
@@ -51,7 +51,8 @@ public class GivePetCommand implements TabExecutor {
       Lang.send(
           sender,
           Messages.SEND_PENDING_FROM,
-          new TextReplacerOwner("recipient", pendingGift.to()));
+          Placeholder.unparsed("recipient_id", String.valueOf(pendingGift.to().getId())),
+          Placeholder.unparsed("recipient", Lang.getName(pendingGift.to())));
       return true;
     }
 
@@ -101,7 +102,8 @@ public class GivePetCommand implements TabExecutor {
       Lang.send(
           sender,
           Messages.SEND_PENDING_TO,
-          new TextReplacerOwner("recipient", recipient.getPlayerProfile()));
+          Placeholder.unparsed("recipient_id", String.valueOf(recipient.getPlayerProfile().getId())),
+          Placeholder.unparsed("recipient", Lang.getName(recipient.getPlayerProfile())));
       return true;
     }
 
@@ -116,19 +118,22 @@ public class GivePetCommand implements TabExecutor {
       sittable.setSitting(true);
     }
 
-    ComponentTameable componentTameable = new ComponentTameable(tameable);
+    Single tameablePlaceholder = Placeholder.component("tamed", Lang.getTameableComponent(tameable));
+
     Lang.send(
         recipient,
         Messages.SEND_OFFER,
-        new TextReplacer[]{ new TextReplacerOwner(senderPlayer.getPlayerProfile()) },
-        componentTameable,
+        Placeholder.unparsed("owner_id", String.valueOf(senderPlayer.getPlayerProfile().getId())),
+        Placeholder.unparsed("owner", Lang.getName(senderPlayer.getPlayerProfile())),
+        tameablePlaceholder,
         ACCEPTPET,
         DECLINEPET);
     Lang.send(
         sender,
         Messages.SEND_OFFERED,
-        new TextReplacer[]{ new TextReplacerOwner("recipient", recipient.getPlayerProfile()) },
-        componentTameable);
+        Placeholder.unparsed("recipient_id", String.valueOf(recipient.getPlayerProfile().getId())),
+        Placeholder.unparsed("recipient", Lang.getName(recipient.getPlayerProfile())),
+        tameablePlaceholder);
 
     return true;
   }

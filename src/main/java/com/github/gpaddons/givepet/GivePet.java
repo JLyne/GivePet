@@ -12,21 +12,6 @@ public class GivePet extends JavaPlugin {
 
   @Override
   public void onEnable() {
-    boolean componentsAvailable;
-    try {
-      Class.forName("net.md_5.bungee.api.ChatColor");
-      componentsAvailable = true;
-    } catch (ClassNotFoundException ignored) {
-      componentsAvailable = false;
-    }
-
-    if (!componentsAvailable) {
-      getLogger().severe(
-          "GivePet requires Spigot or a Spigot fork for access to modern component messages!");
-      getServer().getPluginManager().disablePlugin(this);
-      return;
-    }
-
     GiftManager manager = new GiftManager();
     GivePetCommand givePetCommand = new GivePetCommand(manager);
     registerCommand("givepet", givePetCommand);

@@ -2,13 +2,11 @@ package com.github.gpaddons.givepet.command;
 
 import com.github.gpaddons.givepet.Gift;
 import com.github.gpaddons.givepet.GiftManager;
-import com.github.gpaddons.givepet.lang.ComponentCommand;
 import com.github.gpaddons.givepet.lang.Messages;
 import com.github.gpaddons.util.lang.Lang;
-import com.github.gpaddons.util.lang.replacement.TextReplacer;
-import com.github.gpaddons.util.lang.replacement.TextReplacerOwner;
 import java.util.List;
 import java.util.Objects;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -44,13 +42,17 @@ public class DeclinePetCommand implements TabExecutor {
     Lang.send(
         sender,
         Messages.RECEIVE_DECLINE_RECIPIENT,
-        new TextReplacer[]{ new TextReplacerOwner(gift.from()) },
-        new ComponentCommand("/ignore", "/griefprevention:ignore " + gift.from().getName()));
+        Placeholder.unparsed("owner_id", String.valueOf(gift.from().getId())),
+        Placeholder.unparsed("owner", Lang.getName(gift.from())),
+        Placeholder.component("ignore", Lang.getCommandComponent("/ignore",
+            "/griefprevention:ignore " + gift.from().getName())));
 
     if (!manager.isExpired(gift)) {
       Player from = Bukkit.getPlayer(Objects.requireNonNull(gift.from().getId()));
       if (from != null) {
-        Lang.send(from, Messages.RECEIVE_DECLINE_SENDER, new TextReplacerOwner("recipient", gift.to()));
+        Lang.send(from, Messages.RECEIVE_DECLINE_SENDER,
+            Placeholder.unparsed("recipient_id", String.valueOf(gift.to().getId())),
+            Placeholder.unparsed("recipient", Lang.getName(gift.to())));
       }
     }
 
