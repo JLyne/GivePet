@@ -1,4 +1,5 @@
 import net.minecrell.pluginyml.bukkit.BukkitPluginDescription
+import net.minecrell.pluginyml.paper.PaperPluginDescription
 
 plugins {
     java
@@ -30,12 +31,17 @@ dependencies {
     compileOnly(libs.griefPrevention)
 }
 
-bukkit {
+paper {
     main = "com.github.gpaddons.givepet.GivePet"
     apiVersion = libs.versions.paperApi.get().replace(Regex("\\-R\\d.\\d-SNAPSHOT"), "")
     authors = listOf("Jim (AnEnragedPigeon)", "Jikoo")
     description = "A GriefPrevention addon for pet transfers."
-    depend = listOf("GriefPrevention")
+
+    serverDependencies {
+      register("GriefPrevention") {
+        required = true
+      }
+    }
 
     permissions {
         register("givepet.give") {

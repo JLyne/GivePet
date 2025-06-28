@@ -8,4 +8,4 @@ paperApi = { group = "io.papermc.paper", name = "paper-api", version.ref = "pape
 griefPrevention = { group = "com.github.TechFortress", name = "GriefPrevention", version.ref  = "griefPrevention" }
 
 [plugins]
-pluginYml = { id = "de.eldoria.plugin-yml.bukkit", version.ref = "pluginYml" }
+pluginYml = { id = "de.eldoria.plugin-yml.paper", version.ref = "pluginYml" }
