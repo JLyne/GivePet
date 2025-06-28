@@ -1,36 +1,18 @@
 package com.github.gpaddons.givepet;
 
-import com.github.gpaddons.givepet.command.AcceptPetCommand;
-import com.github.gpaddons.givepet.command.DeclinePetCommand;
-import com.github.gpaddons.givepet.command.GivePetCommand;
-import me.ryanhamshire.GriefPrevention.GriefPrevention;
-import org.bukkit.command.PluginCommand;
-import org.bukkit.command.TabExecutor;
+import io.papermc.paper.plugin.lifecycle.event.LifecycleEventManager;
+import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
+@SuppressWarnings("UnstableApiUsage")
 public class GivePet extends JavaPlugin {
 
   @Override
   public void onEnable() {
-    GiftManager manager = new GiftManager();
-    GivePetCommand givePetCommand = new GivePetCommand(manager);
-    registerCommand("givepet", givePetCommand);
-    registerCommand("acceptpet", new AcceptPetCommand(manager));
-    registerCommand("declinepet", new DeclinePetCommand(manager));
-
-    // Take over GriefPrevention's /givepet if present.
-    PluginCommand gpGivePet = GriefPrevention.instance.getCommand("givepet");
-    if (gpGivePet != null) {
-      gpGivePet.setExecutor(givePetCommand);
-    }
+    LifecycleEventManager<@NotNull Plugin> manager = getLifecycleManager();
+    manager.registerEventHandler(LifecycleEvents.COMMANDS,
+        event -> new Commands(event.registrar(), new GiftManager()));
   }
-
-  private void registerCommand(String name, TabExecutor executor) {
-    PluginCommand command = getCommand(name);
-    if (command == null) {
-      throw new IllegalStateException("No command " + name + " available!");
-    }
-    command.setExecutor(executor);
-  }
-
 }

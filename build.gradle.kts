@@ -45,25 +45,6 @@ bukkit {
             default = BukkitPluginDescription.Permission.Default.TRUE
         }
     }
-
-    commands {
-        register("givepet") {
-          aliases = listOf("transferpet")
-          description = "Give someone a tamed animal of yours!"
-          permission = "givepet.give"
-          usage = "/<command> <player>"
-        }
-        register("acceptpet") {
-          description = "Accept a gifted pet!"
-          permission = "givepet.receive"
-          usage = "/<command>"
-        }
-        register("declinepet") {
-          description = "Decline a gifted pet."
-          permission = "givepet.receive"
-          usage = "/<command>"
-        }
-    }
 }
 
 tasks {
