@@ -52,7 +52,7 @@ public class Commands {
         .requires(source -> source.getSender().hasPermission("givepet.receive"))
         .executes(this::declinePet).build();
 
-    commands.register(giveCommand, "Give someone a tamed animal of yours!");
+    commands.register(giveCommand, "Give someone a pet animal of yours!");
     commands.register(acceptCommand, "Accept a gifted pet!");
     commands.register(declineCommand, "Decline a gifted pet.");
   }
@@ -82,17 +82,18 @@ public class Commands {
         eyeLocation.getDirection(),
         5.0,
         Tameable.class::isInstance);
+
     if (traceResult == null
-        || !(traceResult.getHitEntity() instanceof Tameable tameable)
-        || !tameable.isTamed()) {
-      Lang.send(sender, Messages.SEND_TARGET_TAMEABLE);
+            || !(traceResult.getHitEntity() instanceof Tameable tameable)
+            || !tameable.isTamed()) {
+      Lang.send(sender, Messages.SEND_TARGET_PET);
       return Command.SINGLE_SUCCESS;
     }
 
     PlayerData senderData = GriefPrevention.instance.dataStore.getPlayerData(
         senderPlayer.getUniqueId());
     if (!senderData.ignoreClaims && !senderPlayer.equals(tameable.getOwner())) {
-      Lang.send(sender, Messages.SEND_TARGET_TAMEABLE);
+      Lang.send(sender, Messages.SEND_TARGET_PET);
       return Command.SINGLE_SUCCESS;
     }
 
@@ -132,18 +133,19 @@ public class Commands {
 
     // Remove the gift's target, if any, and make it sit to keep it safer.
     tameable.setTarget(null);
+
     if (tameable instanceof Sittable sittable) {
       sittable.setSitting(true);
     }
 
-    Single tameablePlaceholder = Placeholder.component("tamed", Lang.getTameableComponent(tameable));
+    Single petPlaceholder = Placeholder.component("pet", Lang.getPetComponent(tameable));
 
     Lang.send(
         recipient,
         Messages.SEND_OFFER,
         Placeholder.unparsed("owner_id", String.valueOf(senderPlayer.getPlayerProfile().getId())),
         Placeholder.unparsed("owner", Lang.getName(senderPlayer.getPlayerProfile())),
-        tameablePlaceholder,
+        petPlaceholder,
         ACCEPTPET,
         DECLINEPET);
     Lang.send(
@@ -151,7 +153,7 @@ public class Commands {
         Messages.SEND_OFFERED,
         Placeholder.unparsed("recipient_id", String.valueOf(recipient.getPlayerProfile().getId())),
         Placeholder.unparsed("recipient", Lang.getName(recipient.getPlayerProfile())),
-        tameablePlaceholder);
+        petPlaceholder);
 
     return Command.SINGLE_SUCCESS;
   }
@@ -174,7 +176,7 @@ public class Commands {
     Player from = Bukkit.getPlayer(Objects.requireNonNull(gift.from().getId()));
 
     // Check entity.
-    Entity entity = Bukkit.getEntity(gift.tamed());
+    Entity entity = Bukkit.getEntity(gift.pet());
     if (!(entity instanceof Tameable tameable)) {
       if (from != null) {
         Lang.send(
@@ -193,6 +195,7 @@ public class Commands {
     // Transfer, unsit, and untarget entity.
     tameable.setOwner(recipient);
     tameable.setTarget(null);
+
     if (tameable instanceof Sittable sittable) {
       sittable.setSitting(false);
     }
@@ -202,14 +205,14 @@ public class Commands {
         Messages.RECEIVE_ACCEPT_RECIPIENT,
         Placeholder.unparsed("owner_id", String.valueOf(gift.from().getId())),
         Placeholder.unparsed("owner", Lang.getName(gift.from())),
-        Placeholder.component("tamed", Lang.getTameableComponent(tameable)));
+        Placeholder.component("pet", Lang.getPetComponent(tameable)));
     if (from != null) {
       Lang.send(
           from,
           Messages.RECEIVE_ACCEPT_SENDER,
           Placeholder.unparsed("recipient_id", String.valueOf(gift.to().getId())),
           Placeholder.unparsed("recipient", Lang.getName(gift.to())),
-          Placeholder.component("tamed", Lang.getTameableComponent(tameable)));
+          Placeholder.component("pet", Lang.getPetComponent(tameable)));
     }
 
     return Command.SINGLE_SUCCESS;

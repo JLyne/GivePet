@@ -4,14 +4,14 @@ send:
     from: "<red>You already have a pending transfer to <aqua><recipient>!<red> Please wait for them to respond."
     # Supports <recipient>, <recipient_id>
     to: "<aqua><recipient><green> already has a pending pet transfer! Please wait for them to respond."
-  target_tameable: "<red>You must target a creature you have tamed to transfer!"
+  target_pet: "<red>You must target a one of your pets to transfer!"
   no_recipient: "<red>Invalid recipient!"
-  # Supports <owner>, <owner_id>, <tamed>
+  # Supports <owner>, <owner_id>, <pet>
   offer: |-
-    <aqua><owner><green> would like to transfer <aqua>[<tamed>]<green> to you!
+    <aqua><owner><green> would like to transfer <aqua>[<pet>]<green> to you!
     You have two minutes to <aqua>[<acceptpet>]<green> or <aqua>[<declinepet>]<green>.
-  # Supports <recipient>, <recipient_id>, <tamed>
-  offered: "<green>Offered <aqua>[<tamed>]<green> to <aqua><recipient><green>! They have two minutes to respond."
+  # Supports <recipient>, <recipient_id>, <pet>
+  offered: "<green>Offered <aqua>[<pet>]<green> to <aqua><recipient><green>! They have two minutes to respond."
 receive:
   no_pending: "<red>You don't have any pending pet transfers!"
   not_found:
@@ -20,9 +20,9 @@ receive:
     # Supports <owner>, <owner_id>
     recipient: "<red>Unable to locate pet!"
   accept:
-    # Supports <recipient>, <recipient_id>, <tamed>
+    # Supports <recipient>, <recipient_id>, <pet>
     sender: "<green>Pet transferred!"
-    # Supports <owner>, <owner_id>, <tamed>
+    # Supports <owner>, <owner_id>, <pet>
     recipient: "<green>Pet transferred!"
   decline:
     # Supports <recipient>, <recipient_id>

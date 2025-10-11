@@ -150,14 +150,14 @@ public final class Lang {
   }
 
   /**
-   * Get the component for a Tameable. The component will show their custom name, falling back to
+   * Get the component for a pet. The component will show their custom name, falling back to
    * the vanilla translation. A hover event showing more information is added.
-   * @param tameable The Tameable to populate the component with
+   * @param pet The pet to populate the component with
    * @return The component
    */
-  public static @NotNull Component getTameableComponent(Tameable tameable) {
-    Component defaultName = Component.translatable(tameable.getType().translationKey());
-    Component customName = tameable.customName();
+  public static @NotNull Component getPetComponent(Tameable pet) {
+    Component defaultName = Component.translatable(pet.getType().translationKey());
+    Component customName = pet.customName();
     Component component = customName != null ? customName : defaultName;
     Component hover = customName != null ?
         Component.translatable("commands.list.nameAndId", customName, defaultName) :

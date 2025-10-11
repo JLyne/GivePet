@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 public record Gift(
     @NotNull PlayerProfile from,
     @NotNull PlayerProfile to,
-    @NotNull UUID tamed,
+    @NotNull UUID pet,
     @NotNull Instant expiration) {
 
 }

@@ -7,10 +7,10 @@ public enum Messages implements ConfigMessage {
 
   SEND_PENDING_FROM("send.pending.from", "<red>You already have a pending transfer to <aqua><recipient>!<red> Please wait for them to respond."),
   SEND_PENDING_TO("send.pending.to", "<aqua><recipient><green> already has a pending pet transfer! Please wait for them to respond."),
-  SEND_TARGET_TAMEABLE("send.target_tameable", "<red>You must target a creature you have tamed to transfer!"),
+  SEND_TARGET_PET("send.target_pet", "<red>You must target one of your pets to transfer!"),
   SEND_NO_RECIPIENT("send.no_recipient", "<red>Invalid recipient!"),
-  SEND_OFFER("send.offer", "<aqua><owner><green> would like to transfer <aqua>[<tamed>]<green> to you!\nYou have two minutes to <aqua>[<acceptpet>]<green> or <aqua>[<declinepet>]<green>."),
-  SEND_OFFERED("send.offered", "<green>Offered <aqua>[<tamed>]<green> to <aqua><recipient><green>! They have two minutes to respond."),
+  SEND_OFFER("send.offer", "<aqua><owner><green> would like to transfer <aqua>[<pet>]<green> to you!\nYou have two minutes to <aqua>[<acceptpet>]<green> or <aqua>[<declinepet>]<green>."),
+  SEND_OFFERED("send.offered", "<green>Offered <aqua>[<pet>]<green> to <aqua><recipient><green>! They have two minutes to respond."),
 
   RECEIVE_NO_PENDING("receive.no_pending", "<red>You don't have any pending pet transfers!"),
   RECEIVE_NOT_FOUND_SENDER("receive.not_found.sender", "<red>Unable to transfer pet! Please make sure you stay near it until the transfer completes."),
