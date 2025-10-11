@@ -1,10 +1,10 @@
 [versions]
 pluginYml = "0.8.0"
-paperApi = "1.21.10-R0.1-SNAPSHOT"
+purpurApi = "1.21.10-R0.1-SNAPSHOT"
 griefPrevention = "17.0.0"
 
 [libraries]
-paperApi = { group = "io.papermc.paper", name = "paper-api", version.ref = "paperApi" }
+purpurApi = { group = "org.purpurmc.purpur", name = "purpur-api", version.ref = "purpurApi" }
 griefPrevention = { group = "com.github.TechFortress", name = "GriefPrevention", version.ref  = "griefPrevention" }
 
 [plugins]

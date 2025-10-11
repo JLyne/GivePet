@@ -18,7 +18,10 @@ import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver.Single;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.CopperGolem;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Sittable;
 import org.bukkit.entity.Tameable;
@@ -81,18 +84,28 @@ public class Commands {
         eyeLocation,
         eyeLocation.getDirection(),
         5.0,
-        Tameable.class::isInstance);
+        e -> e instanceof Tameable || e instanceof CopperGolem);
 
-    if (traceResult == null
-            || !(traceResult.getHitEntity() instanceof Tameable tameable)
-            || !tameable.isTamed()) {
+    if (traceResult == null) {
+      Lang.send(sender, Messages.SEND_TARGET_PET);
+      return Command.SINGLE_SUCCESS;
+    }
+
+    Entity target = traceResult.getHitEntity();
+
+    if (target == null
+            || (target instanceof Tameable tameable && !tameable.isTamed())
+            || (target instanceof CopperGolem copperGolem && copperGolem.getSummoner() == null)) {
       Lang.send(sender, Messages.SEND_TARGET_PET);
       return Command.SINGLE_SUCCESS;
     }
 
     PlayerData senderData = GriefPrevention.instance.dataStore.getPlayerData(
         senderPlayer.getUniqueId());
-    if (!senderData.ignoreClaims && !senderPlayer.equals(tameable.getOwner())) {
+    if (!senderData.ignoreClaims &&
+            ((target instanceof Tameable tameable && !senderPlayer.equals(tameable.getOwner()))
+              || (target instanceof CopperGolem golem && !senderPlayer.getUniqueId().equals(golem.getSummoner()))
+            )) {
       Lang.send(sender, Messages.SEND_TARGET_PET);
       return Command.SINGLE_SUCCESS;
     }
@@ -129,16 +142,18 @@ public class Commands {
     giftManager.addGift(
         senderPlayer.getPlayerProfile(),
         recipient.getPlayerProfile(),
-        tameable.getUniqueId());
+        target.getUniqueId());
 
     // Remove the gift's target, if any, and make it sit to keep it safer.
-    tameable.setTarget(null);
+    if (target instanceof Mob mob) {
+      mob.setTarget(null);
+    }
 
-    if (tameable instanceof Sittable sittable) {
+    if (target instanceof Sittable sittable) {
       sittable.setSitting(true);
     }
 
-    Single petPlaceholder = Placeholder.component("pet", Lang.getPetComponent(tameable));
+    Single petPlaceholder = Placeholder.component("pet", Lang.getPetComponent((LivingEntity) target));
 
     Lang.send(
         recipient,
@@ -177,7 +192,7 @@ public class Commands {
 
     // Check entity.
     Entity entity = Bukkit.getEntity(gift.pet());
-    if (!(entity instanceof Tameable tameable)) {
+    if (!(entity instanceof LivingEntity livingEntity)) {
       if (from != null) {
         Lang.send(
             from,
@@ -193,10 +208,16 @@ public class Commands {
     }
 
     // Transfer, unsit, and untarget entity.
-    tameable.setOwner(recipient);
-    tameable.setTarget(null);
+    if (livingEntity instanceof Tameable tameable) {
+      tameable.setOwner(recipient);
+      tameable.setTarget(null);
+    }
 
-    if (tameable instanceof Sittable sittable) {
+    if (livingEntity instanceof CopperGolem golem) {
+      golem.setSummoner(recipient.getUniqueId());
+    }
+
+    if (livingEntity instanceof Sittable sittable) {
       sittable.setSitting(false);
     }
 
@@ -205,14 +226,14 @@ public class Commands {
         Messages.RECEIVE_ACCEPT_RECIPIENT,
         Placeholder.unparsed("owner_id", String.valueOf(gift.from().getId())),
         Placeholder.unparsed("owner", Lang.getName(gift.from())),
-        Placeholder.component("pet", Lang.getPetComponent(tameable)));
+        Placeholder.component("pet", Lang.getPetComponent(livingEntity)));
     if (from != null) {
       Lang.send(
           from,
           Messages.RECEIVE_ACCEPT_SENDER,
           Placeholder.unparsed("recipient_id", String.valueOf(gift.to().getId())),
           Placeholder.unparsed("recipient", Lang.getName(gift.to())),
-          Placeholder.component("pet", Lang.getPetComponent(tameable)));
+          Placeholder.component("pet", Lang.getPetComponent(livingEntity)));
     }
 
     return Command.SINGLE_SUCCESS;

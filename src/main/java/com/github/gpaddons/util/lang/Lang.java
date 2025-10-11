@@ -24,6 +24,8 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.AnimalTamer;
+import org.bukkit.entity.CopperGolem;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Tameable;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -155,7 +157,7 @@ public final class Lang {
    * @param pet The pet to populate the component with
    * @return The component
    */
-  public static @NotNull Component getPetComponent(Tameable pet) {
+  public static @NotNull Component getPetComponent(LivingEntity pet) {
     Component defaultName = Component.translatable(pet.getType().translationKey());
     Component customName = pet.customName();
     Component component = customName != null ? customName : defaultName;
@@ -163,9 +165,18 @@ public final class Lang {
         Component.translatable("commands.list.nameAndId", customName, defaultName) :
         defaultName;
 
-    AnimalTamer owner = tameable.getOwner();
-    if (owner instanceof OfflinePlayer player) {
-      hover = hover.appendNewline().append(Component.text(Lang.getName(player.getPlayerProfile())));
+    if (pet instanceof Tameable tameable) {
+      AnimalTamer owner = tameable.getOwner();
+      if (owner instanceof OfflinePlayer player) {
+        hover = hover.appendNewline().append(Component.text(Lang.getName(player.getPlayerProfile())));
+      }
+    } else if(pet instanceof CopperGolem golem) {
+      UUID ownerUUID = golem.getSummoner();
+
+      if (ownerUUID != null) {
+        OfflinePlayer owner = Bukkit.getOfflinePlayer(ownerUUID);
+        hover = hover.appendNewline().append(Component.text(Lang.getName(owner.getPlayerProfile())));
+      }
     }
 
     return component.hoverEvent(HoverEvent.showText(hover));

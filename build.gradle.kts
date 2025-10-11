@@ -17,7 +17,7 @@ java {
 
 repositories {
     maven {
-        url = uri("https://repo.papermc.io/repository/maven-public/")
+        url = uri("https://repo.purpurmc.org/snapshots/")
     }
     maven {
         url = uri("https://jitpack.io")
@@ -26,13 +26,13 @@ repositories {
 }
 
 dependencies {
-    compileOnly(libs.paperApi)
+    compileOnly(libs.purpurApi)
     compileOnly(libs.griefPrevention)
 }
 
 paper {
     main = "com.github.gpaddons.givepet.GivePet"
-    apiVersion = libs.versions.paperApi.get().replace(Regex("\\-R\\d.\\d-SNAPSHOT"), "")
+    apiVersion = libs.versions.purpurApi.get().replace(Regex("\\-R\\d.\\d-SNAPSHOT"), "")
     authors = listOf("Jim (AnEnragedPigeon)", "Jikoo")
     description = "A GriefPrevention addon for pet transfers."
 
