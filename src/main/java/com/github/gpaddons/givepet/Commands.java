@@ -28,7 +28,6 @@ import java.util.Objects;
 import static io.papermc.paper.command.brigadier.Commands.argument;
 import static io.papermc.paper.command.brigadier.Commands.literal;
 
-@SuppressWarnings("UnstableApiUsage")
 public class Commands {
   private final GiftManager giftManager;
 
