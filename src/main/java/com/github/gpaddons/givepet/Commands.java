@@ -204,6 +204,8 @@ public class Commands {
       return Command.SINGLE_SUCCESS;
     }
 
+    livingEntity.eject();
+
     // Transfer, unsit, and untarget entity.
     if (livingEntity instanceof Tameable tameable) {
       tameable.setOwner(recipient);
