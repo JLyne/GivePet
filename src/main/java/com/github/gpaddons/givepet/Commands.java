@@ -120,10 +120,7 @@ public class Commands {
     }
 
     if (senderPlayer.equals(recipient)
-        || senderData.ignoredPlayers.containsKey(recipient.getUniqueId())
-        || !recipient.hasPermission("givepet.receive")
-        || GriefPrevention.instance.dataStore.getPlayerData(
-            recipient.getUniqueId()).ignoredPlayers.containsKey(senderPlayer.getUniqueId())) {
+        || !recipient.hasPermission("givepet.receive")) {
         Lang.send(sender, Messages.SEND_NO_RECIPIENT);
         return Command.SINGLE_SUCCESS;
     }
@@ -257,9 +254,7 @@ public class Commands {
         sender,
         Messages.RECEIVE_DECLINE_RECIPIENT,
         Placeholder.unparsed("owner_id", String.valueOf(gift.from().getId())),
-        Placeholder.unparsed("owner", Lang.getName(gift.from())),
-        Placeholder.component("ignore", Lang.getCommandComponent("/ignore",
-            "/griefprevention:ignore " + gift.from().getName())));
+        Placeholder.unparsed("owner", Lang.getName(gift.from())));
 
     if (!giftManager.isExpired(gift)) {
       Player from = Bukkit.getPlayer(Objects.requireNonNull(gift.from().getId()));

@@ -10,7 +10,7 @@ GivePet into your plugins folder.
 ## Usage
 `/givepet <player>` or `/transferpet <player>`:
  * Offer someone a pet!
-   * Target must be online, visible, mutually not ignored with GriefPrevention, and have permission to accept or decline.
+   * Target must be online, visible and have permission to accept or decline.
  * Permission: `givepet.give`
 
 `/acceptpet`:

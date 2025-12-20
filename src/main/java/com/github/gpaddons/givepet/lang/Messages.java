@@ -18,7 +18,7 @@ public enum Messages implements ConfigMessage {
   RECEIVE_ACCEPT_SENDER("receive.accept.sender", "<green>Pet transferred!"),
   RECEIVE_ACCEPT_RECIPIENT("receive.accept.recipient", "<green>Pet transferred!"),
   RECEIVE_DECLINE_SENDER("receive.decline.sender", "<red>Pet transfer declined!"),
-  RECEIVE_DECLINE_RECIPIENT("receive.decline.recipient", "<green>Declined pet transfer from <aqua><owner><green>!\nIf they continue to send you unwanted pets, you can <aqua>[<ignore>]<green> them.");
+  RECEIVE_DECLINE_RECIPIENT("receive.decline.recipient", "<green>Declined pet transfer from <aqua><owner><green>!");
 
   private final String key;
   private final String defaultValue;

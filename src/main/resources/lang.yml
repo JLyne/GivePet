@@ -27,10 +27,9 @@ receive:
   decline:
     # Supports <recipient>, <recipient_id>
     sender: "<red>Pet transfer declined!"
-    # Supports <owner>, <owner_id>, <ignore>
+    # Supports <owner>, <owner_id>
     recipient: |-
       <green>Declined pet transfer from <aqua><owner><green>!
-      If they continue to send you unwanted pets, you can <aqua>[<ignore>]<green> them.
 general:
     admin: "an administrator"
     unnamed_player: "someone (<uuid>)"
