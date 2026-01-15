@@ -26,6 +26,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Sittable;
 import org.bukkit.entity.Tameable;
 import org.bukkit.util.RayTraceResult;
+import java.util.List;
 import java.util.Objects;
 
 import static io.papermc.paper.command.brigadier.Commands.argument;
@@ -55,8 +56,8 @@ public class Commands {
         .requires(source -> source.getSender().hasPermission("givepet.receive"))
         .executes(this::declinePet).build();
 
-    commands.register(giveCommand, "Give someone a pet animal of yours!");
-    commands.register(acceptCommand, "Accept a gifted pet!");
+    commands.register(giveCommand, "Transfer one of your pets to someone else.", List.of("transferpet"));
+    commands.register(acceptCommand, "Accept a gifted pet.");
     commands.register(declineCommand, "Decline a gifted pet.");
   }
 
