@@ -46,6 +46,9 @@ paper {
         register("givepet.give") {
             default = BukkitPluginDescription.Permission.Default.TRUE
         }
+        register("givepet.abandon") {
+            default = BukkitPluginDescription.Permission.Default.TRUE
+        }
         register("givepet.receive") {
             default = BukkitPluginDescription.Permission.Default.TRUE
         }
