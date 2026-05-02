@@ -1,7 +1,7 @@
 [versions]
-pluginYml = "0.8.0"
-purpurApi = "1.21.11-R0.1-SNAPSHOT"
-griefPrevention = "17.0.0"
+pluginYml = "0.9.0"
+purpurApi = "26.1.2.build.+"
+griefPrevention = "18.0.0"
 
 [libraries]
 purpurApi = { group = "org.purpurmc.purpur", name = "purpur-api", version.ref = "purpurApi" }

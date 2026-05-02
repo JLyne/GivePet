@@ -32,7 +32,7 @@ dependencies {
 
 paper {
     main = "com.github.gpaddons.givepet.GivePet"
-    apiVersion = libs.versions.purpurApi.get().replace(Regex("\\-R\\d.\\d-SNAPSHOT"), "")
+    apiVersion = libs.versions.purpurApi.get().replace(".build.+", "")
     authors = listOf("Jim (AnEnragedPigeon)", "Jikoo")
     description = "A GriefPrevention addon for pet transfers."
 
