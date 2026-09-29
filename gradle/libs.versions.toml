@@ -5,7 +5,7 @@ griefPrevention = "18.0.0"
 
 [libraries]
 purpurApi = { group = "org.purpurmc.purpur", name = "purpur-api", version.ref = "purpurApi" }
-griefPrevention = { group = "com.github.TechFortress", name = "GriefPrevention", version.ref  = "griefPrevention" }
+griefPrevention = { group = "com.github.GriefPrevention", name = "GriefPrevention", version.ref  = "griefPrevention" }
 
 [plugins]
 pluginYml = { id = "de.eldoria.plugin-yml.paper", version.ref = "pluginYml" }
